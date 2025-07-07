@@ -12,15 +12,15 @@
                     </h3>
                 </div>
                 <div class="card-body text-center">
-                    <h4 class="text-success mb-3">Your Application Has Been Approved!</h4>
+                    <h4 class="text-success mb-3">Your Account Has Been Approved!</h4>
                     <div class="alert alert-success">
                         <h5>
                             <i class="bi bi-person-check"></i>
-                            Welcome, {{ application.user.username }}!
+                            Welcome, {{ account.user.username }}!
                         </h5>
                         <p class="mb-0">
-                            Your securities account application has been successfully approved on
-                            {{ application.approved_at|date:"F d, Y \a\t g:i A" }}.
+                            Your securities account has been successfully approved on
+                            {{ account.approved_at|date:"F d, Y \a\t g:i A" }}.
                         </p>
                     </div>
 

@@ -80,10 +80,8 @@ def account_status(request):
 
 @login_required
 def congratulations(request):
-    application = get_object_or_404(Account, user=request.user, status="approved")
-    return render(
-        request, "accounts/congratulations.html", {"application": application}
-    )
+    account = get_object_or_404(Account, user=request.user, status="approved")
+    return render(request, "accounts/congratulations.html", {"account": account})
 
 
 def get_status_info(account):
@@ -96,14 +94,9 @@ def get_status_info(account):
             "color": "warning",
         },
         "approved": {
-            "title": "account Approved",
-            "message": f"Congratulations! Your account was approved on {account.approved_at.strftime('%B %d, %Y at %I:%M %p') if account.approved_at else 'N/A'}"
-            + (
-                f" by {account.reviewed_by.get_full_name() or account.reviewed_by.username}"
-                if account.reviewed_by
-                else ""
-            )
-            + ".",
+            "title": "Account Approved",
+            "message": f"Congratulations! Your account was approved on {account.approved_at.strftime('%B %d, %Y at %I:%M %p') if account.approved_at else 'N/A'}."
+            ,
             "icon": "check-circle",
             "color": "success",
         },
