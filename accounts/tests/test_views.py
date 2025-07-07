@@ -1,15 +1,50 @@
 import pytest
 
 from accounts.models import Account
+from django.core.exceptions import ValidationError
 
 
 @pytest.mark.django_db
-def test_application_creation(user):
-    application = Account.objects.create(
+def test_account_creation(user):
+    account = Account.objects.create(
         user=user,
         phone_number="123-456-7890",
         address="123 Test St",
         status="pending",
     )
-    assert application.status == "pending"
-    assert str(application) == "testuser - Pending"
+    assert account.status == "pending"
+    assert str(account) == "testuser - Pending"
+
+
+@pytest.mark.django_db
+def test_account_status_choices(user):
+    account = Account.objects.create(
+        user=user, phone_number="123-456-7890", address="123 Test St"
+    )
+
+    # Test pending and approved statuses
+    statuses = ["pending", "approved"]
+    for status in statuses:
+        account.status = status
+        account.save()
+        assert account.status == status
+
+    # Test rejected status with required reason
+    account.status = "rejected"
+    account.rejection_reason = ""
+    with pytest.raises(ValidationError):
+        account.save()
+
+    account.rejection_reason = "Test reject reason"
+    account.save()
+    assert account.status == "rejected"
+
+    # Test additional docs required with reason
+    account.status = "additional_docs_required"
+    account.additional_docs_reason = ""
+    with pytest.raises(ValidationError):
+        account.save()
+
+    account.additional_docs_reason = "Test additional docs reason"
+    account.save()
+    assert account.status == "additional_docs_required"
