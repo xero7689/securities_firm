@@ -2,11 +2,11 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import render
 
-from accounts.models import Account
 from accounts.forms import CombinedRegistrationForm
+from accounts.models import Account
 
 
 def register(request):
