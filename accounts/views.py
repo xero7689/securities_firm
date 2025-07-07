@@ -78,6 +78,14 @@ def account_status(request):
     return render(request, "accounts/account_status.html", context)
 
 
+@login_required
+def congratulations(request):
+    application = get_object_or_404(Account, user=request.user, status="approved")
+    return render(
+        request, "accounts/congratulations.html", {"application": application}
+    )
+
+
 def get_status_info(account):
     """Returns status-specific information for display"""
     status_info = {

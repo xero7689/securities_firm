@@ -1,7 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from . import views
+from accounts import views
 
 urlpatterns = [
     path("register/", views.register, name="register"),
@@ -12,4 +12,5 @@ urlpatterns = [
     ),
     path("", views.account_form, name="account_form"),
     path("status/", views.account_status, name="account_status"),
+    path("congratulations/", views.congratulations, name="congratulations"),
 ]
