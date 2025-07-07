@@ -1,9 +1,9 @@
 import pytest
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 from accounts.models import Account
-from django.core.exceptions import ValidationError
-from django.contrib.auth import get_user_model
-from django.utils import timezone
 
 User = get_user_model()
 
