@@ -2,6 +2,7 @@
 name = "securities-firm"
 version = "0.1.0"
 description = "Add your description here"
+authors = ["shzlee217 <shzlee217@gmail.com>"]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
