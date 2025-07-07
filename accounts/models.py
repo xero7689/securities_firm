@@ -29,7 +29,7 @@ class Account(models.Model):
         null=True,
         blank=True,
     )
-    reviewed_at = models.DateTimeField(blank=True, null=True, auto_now=True)
+    reviewed_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         ordering = ["-created_at"]
