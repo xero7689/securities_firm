@@ -10,4 +10,5 @@ urlpatterns = [
         auth_views.LoginView.as_view(template_name="accounts/login.html"),
         name="login",
     ),
+    path("", views.account_form, name="account_form"),
 ]

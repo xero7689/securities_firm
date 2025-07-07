@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from accounts.models import Account
+
 
 class CombinedRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -53,3 +55,28 @@ class CombinedRegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class AccountForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ["phone_number", "address"]
+        widgets = {
+            "phone_number": forms.TextInput(attrs={"class": "form-control"}),
+            "address": forms.Textarea(attrs={"class": "form-control", "rows": 4}),
+        }
+
+    def clean_phone_number(self):
+        phone = self.cleaned_data.get("phone_number")
+        if phone:
+            # Basic phone number validation
+            if (
+                not phone.replace("-", "")
+                .replace(" ", "")
+                .replace("(", "")
+                .replace(")", "")
+                .replace("+", "")
+                .isdigit()
+            ):
+                raise ValidationError("Please enter a valid phone number")
+        return phone
