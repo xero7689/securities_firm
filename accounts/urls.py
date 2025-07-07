@@ -11,4 +11,5 @@ urlpatterns = [
         name="login",
     ),
     path("", views.account_form, name="account_form"),
+    path("status/", views.account_status, name="account_status"),
 ]

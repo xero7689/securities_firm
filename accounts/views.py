@@ -3,8 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 
 from accounts.forms import AccountForm, CombinedRegistrationForm
 from accounts.models import Account
@@ -31,9 +30,9 @@ def register(request):
                 login(request, user)
                 messages.success(
                     request,
-                    "Registration and application submitted successfully! Please wait for approval.",
+                    "Registration and account submitted successfully! Please wait for approval.",
                 )
-                return HttpResponse(status=201)
+                return redirect("account_status")
             except ValidationError as e:
                 messages.error(request, str(e))
     else:
@@ -53,11 +52,11 @@ def account_form(request):
         form = AccountForm(request.POST, request.FILES, instance=existing_account)
         if form.is_valid():
             try:
-                application = form.save(commit=False)
-                application.user = request.user
-                application.save()
-                messages.success(request, "Application submitted successfully!")
-                return redirect("application_status")
+                account = form.save(commit=False)
+                account.user = request.user
+                account.save()
+                messages.success(request, "account submitted successfully!")
+                return redirect("account_status")
             except ValidationError as e:
                 messages.error(request, str(e))
     else:
@@ -68,3 +67,60 @@ def account_form(request):
         "accounts/account_form.html",
         {"form": form, "existing_account": existing_account},
     )
+
+
+@login_required
+def account_status(request):
+    account = get_object_or_404(Account, user=request.user)
+
+    context = {"account": account, "status_info": get_status_info(account)}
+
+    return render(request, "accounts/account_status.html", context)
+
+
+def get_status_info(account):
+    """Returns status-specific information for display"""
+    status_info = {
+        "pending": {
+            "title": "account Pending",
+            "message": f"Your account was submitted on {account.created_at.strftime('%B %d, %Y at %I:%M %p')}. Please wait for review.",
+            "icon": "clock",
+            "color": "warning",
+        },
+        "approved": {
+            "title": "account Approved",
+            "message": f"Congratulations! Your account was approved on {account.approved_at.strftime('%B %d, %Y at %I:%M %p') if account.approved_at else 'N/A'}"
+            + (
+                f" by {account.reviewed_by.get_full_name() or account.reviewed_by.username}"
+                if account.reviewed_by
+                else ""
+            )
+            + ".",
+            "icon": "check-circle",
+            "color": "success",
+        },
+        "rejected": {
+            "title": "account Rejected",
+            "message": f"Your account was rejected. Reason: {account.rejection_reason or 'No specific reason provided'}"
+            + (
+                f" (Reviewed by {account.reviewed_by.get_full_name() or account.reviewed_by.username})"
+                if account.reviewed_by
+                else ""
+            ),
+            "icon": "x-circle",
+            "color": "danger",
+        },
+        "additional_docs_required": {
+            "title": "Additional Documents Required",
+            "message": f"Please provide additional information: {account.additional_docs_reason or 'Please contact support for details'}"
+            + (
+                f" (Reviewed by {account.reviewed_by.get_full_name() or account.reviewed_by.username})"
+                if account.reviewed_by
+                else ""
+            ),
+            "icon": "file-text",
+            "color": "info",
+        },
+    }
+
+    return status_info.get(account.status, status_info["pending"])
