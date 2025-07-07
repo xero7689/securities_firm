@@ -1,4 +1,5 @@
 import pytest
+
 from accounts.forms import AccountForm, CombinedRegistrationForm
 
 
@@ -98,7 +99,7 @@ def test_combined_registration_form_save():
     }
     form = CombinedRegistrationForm(data=form_data)
     assert form.is_valid()
-    
+
     user = form.save(commit=False)
     assert user.username == "testuser"
     assert user.first_name == "Test"

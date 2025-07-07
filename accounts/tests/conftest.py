@@ -26,7 +26,7 @@ def regular_user():
 
 
 @pytest.fixture
-def application(regular_user):
+def account(regular_user):
     return Account.objects.create(
         user=regular_user, phone_number="123-456-7890", address="123 Test St"
     )
