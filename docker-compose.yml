@@ -1,0 +1,45 @@
+version: "3"
+
+x-service-config: &service-config
+  environment:
+    LOCAL_DEV: ${LOCAL_DEV:-true}
+    DEBUG_RELOAD: ${DEBUG_RELOAD:-true}
+
+services:
+  app:
+    <<: *service-config
+    container_name: "${COMPOSE_PROJECT_NAME}-app"
+    image: securities_firm:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - /app/.venv
+
+  db:
+    container_name: "${COMPOSE_PROJECT_NAME}-db"
+    image: postgres:14
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-securities_firm}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-securities_firm",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
