@@ -8,13 +8,10 @@
             <div class="card border-success">
                 <div class="card-header bg-success text-white">
                     <h3 class="card-title mb-0 text-center">
-                        <i class="bi bi-trophy-fill"></i> Congratulations!
+                        Congratulations!
                     </h3>
                 </div>
                 <div class="card-body text-center">
-                    <div class="mb-4">
-                        <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
-                    </div>
                     <h4 class="text-success mb-3">Your Application Has Been Approved!</h4>
                     <div class="alert alert-success">
                         <h5>
@@ -26,70 +23,14 @@
                             {{ application.approved_at|date:"F d, Y \a\t g:i A" }}.
                         </p>
                     </div>
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            <div class="card bg-dark border-success">
-                                <div class="card-body">
-                                    <h6 class="card-title">
-                                        <i class="bi bi-calendar-check"></i> Next Steps
-                                    </h6>
-                                    <ul class="list-unstyled text-start">
-                                        <li>
-                                            <i class="bi bi-check2"></i> Check your email for account details
-                                        </li>
-                                        <li>
-                                            <i class="bi bi-check2"></i> Download our mobile app
-                                        </li>
-                                        <li>
-                                            <i class="bi bi-check2"></i> Set up your trading preferences
-                                        </li>
-                                        <li>
-                                            <i class="bi bi-check2"></i> Complete your initial deposit
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card bg-dark border-info">
-                                <div class="card-body">
-                                    <h6 class="card-title">
-                                        <i class="bi bi-info-circle"></i> Important Information
-                                    </h6>
-                                    <ul class="list-unstyled text-start">
-                                        <li>
-                                            <i class="bi bi-envelope"></i> Account details sent to your email
-                                        </li>
-                                        <li>
-                                            <i class="bi bi-phone"></i> Customer support: 1-800-TRADING
-                                        </li>
-                                        <li>
-                                            <i class="bi bi-clock"></i> Account activation: 1-2 business days
-                                        </li>
-                                        <li>
-                                            <i class="bi bi-shield-check"></i> All data is secure and encrypted
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="mt-4">
                         <div class="d-grid gap-2 d-md-block">
-                            <a href="{% url 'application_status' %}" class="btn btn-outline-success">
-                                <i class="bi bi-file-text"></i> View Application Details
-                            </a>
-                            <a href="mailto:support@securitiesfirm.com" class="btn btn-outline-info">
-                                <i class="bi bi-envelope"></i> Contact Support
+                            <a href="{% url 'account_status' %}" class="btn btn-outline-success">
+                                <i class="bi bi-file-text"></i> View Account Details
                             </a>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer text-center text-muted">
-                    <p class="mb-0">
-                        <i class="bi bi-shield-fill"></i>
-                        Thank you for choosing our securities firm. Your financial future starts here!
-                    </p>
                 </div>
             </div>
         </div>
