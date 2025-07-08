@@ -1,0 +1,51 @@
+{% extends "accounts/base.html" %}
+{% block title %}
+    Congratulations - Securities Firm
+{% endblock title %}
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    <h3 class="card-title mb-0 text-center">
+                        Congratulations!
+                    </h3>
+                </div>
+                <div class="card-body text-center">
+                    <h4 class="text-success mb-3">Your Account Has Been Approved!</h4>
+                    <div class="alert alert-success">
+                        <h5>
+                            <i class="bi bi-person-check"></i>
+                            Welcome, {{ account.user.username }}!
+                        </h5>
+                        <p class="mb-0">
+                            Your securities account has been successfully approved on
+                            {{ account.approved_at|date:"F d, Y \a\t g:i A" }}.
+                        </p>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="d-grid gap-2 d-md-block">
+                            <a href="{% url 'account_status' %}" class="btn btn-outline-success">
+                                <i class="bi bi-file-text"></i> View Account Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+    .card-header.bg-success {
+        background-color: #198754 !important;
+    }
+    
+    .border-success {
+        border-color: #198754 !important;
+    }
+    
+    .border-info {
+        border-color: #0dcaf0 !important;
+    }
+    </style>
+{% endblock content %}

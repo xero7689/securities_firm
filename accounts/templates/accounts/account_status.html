@@ -1,0 +1,73 @@
+{% extends 'accounts/base.html' %}
+{% block title %}Account Status - Securities Firm{% endblock title %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title mb-0">
+            <i class="bi bi-file-text"></i> Account Status
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-{{ status_info.color }} d-flex align-items-center">
+            <div>
+              <strong>{{ status_info.title }}</strong>
+              <br>
+              {{ status_info.message }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <h5>account Details</h5>
+              <table class="table table-dark table-striped">
+                <tbody>
+                  <tr>
+                    <th>Account Name:</th>
+                    <td>{{ account.user.username }}</td>
+                  </tr>
+                  <tr>
+                    <th>Phone Number:</th>
+                    <td>{{ account.phone_number }}</td>
+                  </tr>
+                  <tr>
+                    <th>Address:</th>
+                    <td>{{ account.address }}</td>
+                  </tr>
+                  <tr>
+                    <th>Status:</th>
+                    <td>
+                      <span class="badge bg-{{ status_info.color }}">{{ account.get_status_display }}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Submitted:</th>
+                    <td>{{ account.created_at|date:"F d, Y \a\t g:i A" }}</td>
+                  </tr>
+                  <tr>
+                    <th>Last Updated:</th>
+                    <td>{{ account.updated_at|date:"F d, Y \a\t g:i A" }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {% if account.status == 'additional_docs_required' %}
+            <div class="mt-4">
+              <a href="{% url 'account_form' %}" class="btn btn-warning">
+                <i class="bi bi-pencil"></i> Update account
+              </a>
+            </div>
+          {% endif %}
+          {% if account.status == 'approved' %}
+            <div class="mt-4">
+              <a href="{% url 'congratulations' %}" class="btn btn-success">
+                View Congratulations
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

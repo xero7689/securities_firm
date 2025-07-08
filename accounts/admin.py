@@ -20,7 +20,7 @@ class AccountAdminForm(forms.ModelForm):
 
 
 @admin.register(Account)
-class ApplicationAdmin(admin.ModelAdmin):
+class AccountAdmin(admin.ModelAdmin):
     form = AccountAdminForm
     list_display = [
         "user",
@@ -37,7 +37,7 @@ class ApplicationAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (
-            "Application Information",
+            "Account Information",
             {"fields": ("user", "phone_number", "address")},
         ),
         (
@@ -82,15 +82,15 @@ class ApplicationAdmin(admin.ModelAdmin):
                 messages.error(request, str(e))
             raise
 
-    actions = ["approve_applications"]
+    actions = ["approve_accounts"]
 
-    def approve_applications(self, request, queryset):
+    def approve_accounts(self, request, queryset):
         updated = queryset.update(
             status="approved",
             approved_at=timezone.now(),
             reviewed_by=request.user,
             reviewed_at=timezone.now(),
         )
-        self.message_user(request, f"{updated} applications approved successfully.")
+        self.message_user(request, f"{updated} account approved successfully.")
 
-    approve_applications.short_description = "Approve selected applications"
+    approve_accounts.short_description = "Approve selected accounts"
