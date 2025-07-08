@@ -9,6 +9,12 @@ from accounts.forms import AccountForm, CombinedRegistrationForm
 from accounts.models import Account
 
 
+def home(request):
+    if request.user.is_authenticated:
+        return redirect("account_status")
+    return redirect("login")
+
+
 def register(request):
     if request.method == "POST":
         form = CombinedRegistrationForm(request.POST, request.FILES)
@@ -41,7 +47,7 @@ def register(request):
 
 
 @login_required
-def account_form(request):
+def supplement_form(request):
     # Check if user already has an account
     existing_account = Account.objects.filter(user=request.user).first()
 
@@ -95,8 +101,7 @@ def get_status_info(account):
         },
         "approved": {
             "title": "Account Approved",
-            "message": f"Congratulations! Your account was approved on {account.approved_at.strftime('%B %d, %Y at %I:%M %p') if account.approved_at else 'N/A'}."
-            ,
+            "message": f"Congratulations! Your account was approved on {account.approved_at.strftime('%B %d, %Y at %I:%M %p') if account.approved_at else 'N/A'}.",
             "icon": "check-circle",
             "color": "success",
         },
