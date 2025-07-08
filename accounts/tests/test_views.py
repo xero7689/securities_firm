@@ -31,15 +31,15 @@ def test_register_view_post(client):
 
 
 @pytest.mark.django_db
-def test_login_required_for_account_form(client):
-    response = client.get(reverse("account_form"))
+def test_login_required_for_supplement_form(client):
+    response = client.get(reverse("supplement_form"))
     assert response.status_code == 302  # Redirect to login
 
 
 @pytest.mark.django_db
-def test_account_form_authenticated(client, user):
+def test_supplement_form_authenticated(client, user):
     client.login(username="testuser", password="testpass123")
-    response = client.get(reverse("account_form"))
+    response = client.get(reverse("supplement_form"))
     assert response.status_code == 200
     assert "Securities Account" in response.content.decode()
 
