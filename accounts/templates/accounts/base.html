@@ -10,8 +10,6 @@
     </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
           rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
-          rel="stylesheet" />
     <style>
       :root {
         --bs-dark-rgb: 33, 37, 41;
@@ -105,7 +103,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container">
         <a class="navbar-brand" href="{% url 'supplement_form' %}">
-          <i class="bi bi-bank"></i> Securities Firm
+          Securities Firm
         </a>
         <div class="navbar-nav ms-auto d-flex flex-row">
           {% if user.is_authenticated %}
