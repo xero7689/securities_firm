@@ -1,0 +1,27 @@
+# Database Configuration
+POSTGRES_DB=securities_firm
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_secure_password
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+
+# Django Configuration
+DJANGO_SECRET_KEY=your-very-secure-secret-key-here
+
+# Deployment Configuration
+# IS_DEPLOYED: Controls database backend selection
+#   - true: Uses PostgreSQL (for container/production deployment)
+#   - false: Uses SQLite (for local development)
+IS_DEPLOYED=true
+
+# Debug Configuration
+# IS_DEBUG: Controls Django DEBUG setting
+#   - true: Enables debug mode (for development only)
+#   - false: Disables debug mode (REQUIRED for production deployment)
+IS_DEBUG=true
+
+ALLOWED_HOSTS=localhost,127.0.0.1
+APP_NAME=securities_firm
+
+# Docker Compose
+COMPOSE_PROJECT_NAME=securities_firm
