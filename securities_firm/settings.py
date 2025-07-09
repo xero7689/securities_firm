@@ -10,22 +10,27 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-dnqmd5s$3-!@!etmai8(^kl%epmrargo39#4508(xo3#me18#e"
+# Make sure you've setup and preserve the secret correctly before deploying to online stage
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", default="unsafe_default_secret_key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("IS_DEBUG", default="false").lower() == "true"
+IS_DEPLOYED = os.environ.get("IS_DEPLOYED", default="false").lower() == "true"
 
 ALLOWED_HOSTS = []
+if allowed_hosts := os.environ.get("ALLOWED_HOSTS", None):
+    ALLOWED_HOSTS = allowed_hosts.split(",")
 
 
 # Application definition
@@ -73,13 +78,25 @@ WSGI_APPLICATION = "securities_firm.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if IS_DEPLOYED:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ.get("POSTGRES_DB"),
+            "USER": os.environ.get("POSTGRES_USER"),
+            "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+            "HOST": os.environ.get("POSTGRES_HOST"),
+            "PORT": os.environ.get("POSTGRES_PORT"),
+            "OPTIONS": {"application_name": os.environ.get("APP_NAME")},
+        }
     }
-}
-
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
