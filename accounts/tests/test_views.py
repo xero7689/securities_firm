@@ -147,7 +147,8 @@ def test_congratulations_requires_approved_account(client, user):
         status="pending",
     )
     response = client.get(reverse("congratulations"))
-    assert response.status_code == 404  # Account not approved
+    assert response.status_code == 302  # Redirect to account_status
+    assert response.url == reverse("account_status")
 
 
 @pytest.mark.django_db
@@ -163,6 +164,38 @@ def test_congratulations_with_approved_account(client, user):
     response = client.get(reverse("congratulations"))
     assert response.status_code == 200
     assert "Congratulations" in response.content.decode()
+
+
+@pytest.mark.django_db
+def test_congratulations_redirects_rejected_account(client, user):
+    client.login(username="testuser", password="testpass123")
+    # Create rejected account
+    Account.objects.create(
+        user=user,
+        phone_number="123-456-7890",
+        address="123 Test St",
+        status="rejected",
+        rejection_reason="Test rejection reason",
+    )
+    response = client.get(reverse("congratulations"))
+    assert response.status_code == 302  # Redirect to account_status
+    assert response.url == reverse("account_status")
+
+
+@pytest.mark.django_db
+def test_congratulations_redirects_additional_docs_required_account(client, user):
+    client.login(username="testuser", password="testpass123")
+    # Create account requiring additional documents
+    Account.objects.create(
+        user=user,
+        phone_number="123-456-7890",
+        address="123 Test St",
+        status="additional_docs_required",
+        additional_docs_reason="Test additional docs reason",
+    )
+    response = client.get(reverse("congratulations"))
+    assert response.status_code == 302  # Redirect to account_status
+    assert response.url == reverse("account_status")
 
 
 @pytest.mark.django_db

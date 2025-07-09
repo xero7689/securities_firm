@@ -95,6 +95,10 @@ def supplement_form(request):
 def account_status(request):
     account = get_object_or_404(Account, user=request.user)
 
+    # Automatically redirect approved users to congratulations page
+    if account.status == "approved":
+        return redirect("congratulations")
+
     context = {"account": account, "status_info": get_status_info(account)}
 
     return render(request, "accounts/account_status.html", context)
@@ -102,8 +106,11 @@ def account_status(request):
 
 @login_required
 def congratulations(request):
-    account = get_object_or_404(Account, user=request.user, status="approved")
-    return render(request, "accounts/congratulations.html", {"account": account})
+    account = get_object_or_404(Account, user=request.user)
+    if account.status == "approved":
+        return render(request, "accounts/congratulations.html", {"account": account})
+    else:
+        return redirect("account_status")
 
 
 def get_status_info(account):
