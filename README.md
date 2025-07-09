@@ -16,27 +16,32 @@ This project is a securities firm account opening demo powered by Django.
    Follow the [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/)
 
 2. **Clone the repository**:
+
    ```bash
    git clone <repository-url>
    cd securities_firm
    ```
 
 3. **Install dependencies**:
+
    ```bash
    uv sync
    ```
 
 4. **Run database migrations**:
+
    ```bash
    uv run python manage.py migrate
    ```
 
 5. **Create a superuser** (administrator account):
+
    ```bash
    uv run python manage.py createsuperuser
    ```
 
 6. **Start the development server**:
+
    ```bash
    uv run python manage.py runserver
    ```
@@ -45,20 +50,79 @@ This project is a securities firm account opening demo powered by Django.
    - User interface: http://localhost:8000
    - Admin interface: http://localhost:8000/admin
 
+## Testing
+
+### Unit Testing with uv
+
+This project uses pytest and pytest-django for testing. Tests are configured to run with Django settings automatically.
+
+1. **Run all tests**:
+
+   ```bash
+   uv run pytest -v
+   ```
+
+2. **Run specific test file**:
+
+   ```bash
+   uv run pytest tests/test_accounts.py -v
+   ```
+
+3. **Run tests with coverage**:
+
+   ```bash
+   uv run pytest --cov=. -v
+   ```
+
+4. **Run tests matching a pattern**:
+   ```bash
+   uv run pytest -k "test_account" -v
+   ```
+
+**Note**: Tests are configured in `pyproject.toml` to automatically use `securities_firm.settings` as the Django settings module.
+
+## Docker Deployment
+
+### Environment Setup
+
+1. **Create a `.env` file** in the project root for environment variables:
+
+   ```bash
+   cp example-env .env
+   ```
+
+2. **Edit the `.env` file** and update the values:
+
+   - Change `POSTGRES_PASSWORD` to a secure password
+   - Change `DJANGO_SECRET_KEY` to a secure secret key
+   - Modify other settings as needed for your environment
+
+   See `example-env` for the complete list of required environment variables.
+
 ### Using Docker Container
 
 1. **Build and run with Docker Compose**:
+
    ```bash
    docker-compose up --build
    ```
 
 2. **Create a superuser** (in a separate terminal):
+
    ```bash
-   docker-compose exec web python manage.py createsuperuser
+   docker-compose exec app python manage.py createsuperuser
    ```
 
 3. **Access the application**:
-   - User interface: http://localhost:8000
-   - Admin interface: http://localhost:8000/admin
+   - User interface: http://localhost:8080
+   - Admin interface: http://localhost:8080/admin
 
-**Note**: Containerized deployment is preferred for production environments.
+### Important Notes for Production Deployment
+
+**Development vs Production**:
+
+- The containerized setup includes automatic database migrations and static file collection on startup via `entrypoint.sh`
+- This is intended for **development and testing environments only**
+
+**Production Deployment**:
+For production deployments, database migrations and static file collection should be handled in CI/CD pipeline rather than automatically on container startup:
