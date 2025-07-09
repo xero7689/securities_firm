@@ -54,6 +54,22 @@ def supplement_form(request):
     if existing_account and existing_account.status == "approved":
         return redirect("congratulations")
 
+    # Prevent access for rejected accounts
+    if existing_account and existing_account.status == "rejected":
+        messages.error(
+            request,
+            "Your account has been rejected. You cannot submit additional documents.",
+        )
+        return redirect("account_status")
+
+    # Prevent access for pending accounts
+    if existing_account and existing_account.status == "pending":
+        messages.error(
+            request,
+            "Your account is currently under review. You cannot submit additional documents.",
+        )
+        return redirect("account_status")
+
     if request.method == "POST":
         form = AccountForm(request.POST, request.FILES, instance=existing_account)
         if form.is_valid():

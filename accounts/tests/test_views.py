@@ -45,6 +45,80 @@ def test_supplement_form_authenticated(client, user):
 
 
 @pytest.mark.django_db
+def test_supplement_form_rejected_account_access_denied(client, user):
+    client.login(username="testuser", password="testpass123")
+    # Create rejected account
+    Account.objects.create(
+        user=user,
+        phone_number="123-456-7890",
+        address="123 Test St",
+        status="rejected",
+        rejection_reason="Test rejection reason",
+    )
+    response = client.get(reverse("supplement_form"))
+    assert response.status_code == 302  # Redirect to account_status
+    assert response.url == reverse("account_status")
+
+
+@pytest.mark.django_db
+def test_supplement_form_rejected_account_post_denied(client, user):
+    client.login(username="testuser", password="testpass123")
+    # Create rejected account
+    Account.objects.create(
+        user=user,
+        phone_number="123-456-7890",
+        address="123 Test St",
+        status="rejected",
+        rejection_reason="Test rejection reason",
+    )
+    response = client.post(
+        reverse("supplement_form"),
+        data={
+            "phone_number": "123-456-7891",
+            "address": "456 Test St",
+        },
+    )
+    assert response.status_code == 302  # Redirect to account_status
+    assert response.url == reverse("account_status")
+
+
+@pytest.mark.django_db
+def test_supplement_form_pending_account_access_denied(client, user):
+    client.login(username="testuser", password="testpass123")
+    # Create pending account
+    Account.objects.create(
+        user=user,
+        phone_number="123-456-7890",
+        address="123 Test St",
+        status="pending",
+    )
+    response = client.get(reverse("supplement_form"))
+    assert response.status_code == 302  # Redirect to account_status
+    assert response.url == reverse("account_status")
+
+
+@pytest.mark.django_db
+def test_supplement_form_pending_account_post_denied(client, user):
+    client.login(username="testuser", password="testpass123")
+    # Create pending account
+    Account.objects.create(
+        user=user,
+        phone_number="123-456-7890",
+        address="123 Test St",
+        status="pending",
+    )
+    response = client.post(
+        reverse("supplement_form"),
+        data={
+            "phone_number": "123-456-7891",
+            "address": "456 Test St",
+        },
+    )
+    assert response.status_code == 302  # Redirect to account_status
+    assert response.url == reverse("account_status")
+
+
+@pytest.mark.django_db
 def test_account_status_requires_account(client, user):
     client.login(username="testuser", password="testpass123")
     response = client.get(reverse("account_status"))
