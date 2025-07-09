@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", default="unsafe_default_secret_
 DEBUG = os.environ.get("IS_DEBUG", default="false").lower() == "true"
 IS_DEPLOYED = os.environ.get("IS_DEPLOYED", default="false").lower() == "true"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 if allowed_hosts := os.environ.get("ALLOWED_HOSTS", None):
     ALLOWED_HOSTS = allowed_hosts.split(",")
 
