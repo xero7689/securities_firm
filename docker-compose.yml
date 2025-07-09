@@ -46,7 +46,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-securities_firm}",
+          "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB",
         ]
       interval: 2s
       timeout: 5s
