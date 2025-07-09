@@ -21,9 +21,14 @@ RUN groupadd --gid 1000 app && useradd --uid 1000 --gid app --shell /bin/bash ap
 
 COPY --from=builder --chown=app:app /app /app
 
+# Copy and set permissions for entrypoint script
+COPY --chown=app:app entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 USER app
 WORKDIR /app
 
 ENV PATH="/app/.venv/bin:$PATH"
 
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]

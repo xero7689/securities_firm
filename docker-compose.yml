@@ -27,7 +27,8 @@ services:
       - .:/app
       - /app/.venv
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     container_name: "${COMPOSE_PROJECT_NAME}-db"
@@ -45,11 +46,12 @@ services:
       test:
         [
           "CMD-SHELL",
-          "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-securities_firm",
+          "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-securities_firm}",
         ]
-      interval: 30s
+      interval: 2s
       timeout: 5s
       retries: 5
+      start_period: 10s
 
 volumes:
   postgres_data:
