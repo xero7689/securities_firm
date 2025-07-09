@@ -126,3 +126,13 @@ This project uses pytest and pytest-django for testing. Tests are configured to 
 
 **Production Deployment**:
 For production deployments, database migrations and static file collection should be handled in CI/CD pipeline rather than automatically on container startup:
+
+## Contributing
+
+### Code Formatting and Linting
+
+This project uses Ruff for code formatting and linting. Before contributing, please ensure your code is properly formatted and linted:
+
+```bash
+ruff check --config ruff.toml --extend-select I --fix .; ruff format
+```
