@@ -16,5 +16,10 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("supplement/", views.supplement_form, name="supplement_form"),
     path("status/", views.account_status, name="account_status"),
+    path(
+        "admin-without-account/",
+        views.admin_without_account,
+        name="admin_without_account",
+    ),
     path("congratulations/", views.congratulations, name="congratulations"),
 ]

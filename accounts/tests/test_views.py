@@ -122,7 +122,8 @@ def test_supplement_form_pending_account_post_denied(client, user):
 def test_account_status_requires_account(client, user):
     client.login(username="testuser", password="testpass123")
     response = client.get(reverse("account_status"))
-    assert response.status_code == 404  # No account exists
+    assert response.status_code == 302  # Redirect to register
+    assert response.url == reverse("register")
 
 
 @pytest.mark.django_db
@@ -257,3 +258,70 @@ def test_admin_bulk_approve_sets_reviewer_fields(
     assert app2.status == "approved"
     assert app2.reviewed_by == admin_user
     assert app2.reviewed_at is not None
+
+
+@pytest.mark.django_db
+def test_admin_without_account_redirects_to_admin_page(client, admin_user):
+    client.login(username="admin", password="adminpass123")
+    response = client.get(reverse("account_status"))
+    assert response.status_code == 302  # Redirect to admin_without_account
+    assert response.url == reverse("admin_without_account")
+
+
+@pytest.mark.django_db
+def test_staff_without_account_redirects_to_admin_page(client):
+    # Create staff user
+    staff_user = User.objects.create_user(
+        username="staff", email="staff@example.com", password="staffpass123"
+    )
+    staff_user.is_staff = True
+    staff_user.save()
+
+    client.login(username="staff", password="staffpass123")
+    response = client.get(reverse("account_status"))
+    assert response.status_code == 302  # Redirect to admin_without_account
+    assert response.url == reverse("admin_without_account")
+
+
+@pytest.mark.django_db
+def test_admin_without_account_view_displays_correctly(client, admin_user):
+    client.login(username="admin", password="adminpass123")
+    response = client.get(reverse("admin_without_account"))
+    assert response.status_code == 200
+    assert "Admin Access" in response.content.decode()
+    assert "Go to Admin Panel" in response.content.decode()
+    assert admin_user.username in response.content.decode()
+    # Ensure Create Account section is not present
+    assert "Register Account" not in response.content.decode()
+
+
+@pytest.mark.django_db
+def test_admin_without_account_view_non_admin_redirects(client, user):
+    client.login(username="testuser", password="testpass123")
+    response = client.get(reverse("admin_without_account"))
+    assert response.status_code == 302  # Redirect to account_status
+    assert response.url == reverse("account_status")
+
+
+@pytest.mark.django_db
+def test_register_admin_without_account_redirects(client, admin_user):
+    client.login(username="admin", password="adminpass123")
+    response = client.get(reverse("register"))
+    assert response.status_code == 302  # Redirect to admin_without_account
+    assert response.url == reverse("admin_without_account")
+
+
+@pytest.mark.django_db
+def test_supplement_form_admin_without_account_redirects(client, admin_user):
+    client.login(username="admin", password="adminpass123")
+    response = client.get(reverse("supplement_form"))
+    assert response.status_code == 302  # Redirect to admin_without_account
+    assert response.url == reverse("admin_without_account")
+
+
+@pytest.mark.django_db
+def test_congratulations_admin_without_account_redirects(client, admin_user):
+    client.login(username="admin", password="adminpass123")
+    response = client.get(reverse("congratulations"))
+    assert response.status_code == 302  # Redirect to admin_without_account
+    assert response.url == reverse("admin_without_account")

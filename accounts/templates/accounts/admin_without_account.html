@@ -1,0 +1,55 @@
+{% extends "accounts/base.html" %}
+{% block title %}
+  Admin Access - Securities Firm
+{% endblock title %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0">
+            Admin Access
+          </h4>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info">
+            <h5>Welcome, {{ user.username }}!</h5>
+            <p>You are logged in as a Django admin user, but you don't have a securities account in our system.</p>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="card bg-dark border-secondary">
+                <div class="card-body text-center">
+                  <h6>Admin Panel</h6>
+                  <p class="text-muted">Access the Django admin interface to manage users and accounts.</p>
+                  <a href="/admin/" class="btn btn-primary">
+                    Go to Admin Panel
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h6>Your Current Status:</h6>
+            <ul class="list-unstyled">
+              <li>
+                <strong>Username:</strong> {{ user.username }}
+              </li>
+              <li>
+                <strong>Email:</strong> {{ user.email|default:"Not provided" }}
+              </li>
+              <li>
+                <strong>Staff Status:</strong>
+                {% if user.is_staff %}<span class="badge bg-success">Staff</span>{% endif %}
+                {% if user.is_superuser %}<span class="badge bg-warning">Superuser</span>{% endif %}
+              </li>
+              <li>
+                <strong>Securities Account:</strong> <span class="badge bg-secondary">Not Created</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

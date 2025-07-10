@@ -3,7 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db import transaction
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 
 from accounts.forms import AccountForm, CombinedRegistrationForm
 from accounts.models import Account
@@ -16,6 +16,15 @@ def home(request):
 
 
 def register(request):
+    # Check if user is authenticated admin/staff without account
+    if request.user.is_authenticated and (
+        request.user.is_staff or request.user.is_superuser
+    ):
+        try:
+            Account.objects.get(user=request.user)
+        except Account.DoesNotExist:
+            return redirect("admin_without_account")
+
     if request.method == "POST":
         form = CombinedRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -50,6 +59,10 @@ def register(request):
 def supplement_form(request):
     # Check if user already has an account
     existing_account = Account.objects.filter(user=request.user).first()
+
+    # Check if user is admin/staff without account
+    if not existing_account and (request.user.is_staff or request.user.is_superuser):
+        return redirect("admin_without_account")
 
     if existing_account and existing_account.status == "approved":
         return redirect("congratulations")
@@ -93,7 +106,14 @@ def supplement_form(request):
 
 @login_required
 def account_status(request):
-    account = get_object_or_404(Account, user=request.user)
+    try:
+        account = Account.objects.get(user=request.user)
+    except Account.DoesNotExist:
+        # Check if user is admin/staff without account
+        if request.user.is_staff or request.user.is_superuser:
+            return redirect("admin_without_account")
+        # Regular user without account should not happen, but redirect to register
+        return redirect("register")
 
     # Automatically redirect approved users to congratulations page
     if account.status == "approved":
@@ -105,8 +125,24 @@ def account_status(request):
 
 
 @login_required
+def admin_without_account(request):
+    """View for admin users who don't have an Account instance"""
+    if not (request.user.is_staff or request.user.is_superuser):
+        return redirect("account_status")
+
+    return render(request, "accounts/admin_without_account.html")
+
+
+@login_required
 def congratulations(request):
-    account = get_object_or_404(Account, user=request.user)
+    try:
+        account = Account.objects.get(user=request.user)
+    except Account.DoesNotExist:
+        # Check if user is admin/staff without account
+        if request.user.is_staff or request.user.is_superuser:
+            return redirect("admin_without_account")
+        return redirect("account_status")
+
     if account.status == "approved":
         return render(request, "accounts/congratulations.html", {"account": account})
     else:
