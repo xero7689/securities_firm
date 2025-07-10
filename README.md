@@ -2,6 +2,13 @@
 
 This project is a securities firm account opening demo powered by Django.
 
+## System Requirements
+
+This project should be executed on one of the following operating systems:
+- **Linux**
+- **macOS**
+- **Windows with WSL** (Windows Subsystem for Linux)
+
 ## Python Requirements
 
 - **Python**: >= 3.12
