@@ -149,7 +149,9 @@ uv run python manage.py collectstatic
    - User interface: http://localhost:8080
    - Admin interface: http://localhost:8080/admin
 
-**Note**: The Docker container runs the application using **uvicorn** as the ASGI server, which is production-ready and optimized for performance.
+#### **Note**
+  - The Docker container runs the service on port 8080, which is different from the uv host environment that runs on port 8000.
+  - The Docker container runs the application using **uvicorn** as the ASGI server, which is production-ready and optimized for performance.
 
 ### Uvicorn Configuration
 
