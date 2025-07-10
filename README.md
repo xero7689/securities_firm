@@ -176,8 +176,8 @@ For production deployments, database migrations and static file collection shoul
 
 ### Code Formatting and Linting
 
-This project uses Ruff for code formatting and linting. Before contributing, please ensure your code is properly formatted and linted:
+This project uses Ruff for code formatting and linting. Ruff is included as a development dependency and can be used through uv. Before contributing, please ensure your code is properly formatted and linted:
 
 ```bash
-ruff check --config ruff.toml --extend-select I --fix .; ruff format
+uv run ruff check --config ruff.toml --extend-select I --fix .; ruff format
 ```
