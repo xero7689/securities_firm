@@ -4,6 +4,10 @@ set -e
 
 echo "Starting entrypoint script..."
 
+# Create logs directory if it doesn't exist
+echo "Creating logs directory..."
+mkdir -p logs
+
 # Run Django migrations
 echo "Running Django migrations..."
 python manage.py migrate --no-input

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+
 import structlog
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -161,7 +162,9 @@ LOGGING = {
         },
         "key_value": {
             "()": structlog.stdlib.ProcessorFormatter,
-            "processor": structlog.processors.KeyValueRenderer(key_order=['timestamp', 'level', 'event', 'logger']),
+            "processor": structlog.processors.KeyValueRenderer(
+                key_order=["timestamp", "level", "event", "logger"]
+            ),
         },
     },
     "handlers": {
@@ -193,7 +196,7 @@ LOGGING = {
             "handlers": ["console", "flat_line_file", "json_file"],
             "level": "INFO",
         },
-    }
+    },
 }
 
 structlog.configure(
