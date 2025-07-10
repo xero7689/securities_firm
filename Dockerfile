@@ -31,4 +31,4 @@ WORKDIR /app
 ENV PATH="/app/.venv/bin:$PATH"
 
 ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+CMD ["python", "-m", "uvicorn","--host", "0.0.0.0", "--port", "8080", "--reload", "securities_firm.asgi:application"]
