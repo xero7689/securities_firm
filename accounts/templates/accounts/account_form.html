@@ -8,7 +8,6 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title mb-0">
-                    <i class="bi bi-file-earmark-text"></i> 
                     {% if existing_account %}
                         Update Securities Account
                     {% else %}
@@ -19,7 +18,6 @@
             <div class="card-body">
                 {% if existing_account %}
                     <div class="alert alert-info">
-                        <i class="bi bi-info-circle"></i>
                         <strong>Updating Existing Account</strong><br>
                         Current Status: <span class="badge bg-secondary">{{ existing_account.get_status_display }}</span><br>
                         Last Updated: {{ existing_account.updated_at|date:"F d, Y \a\t g:i A" }}
@@ -31,7 +29,7 @@
                     
                     <div class="mb-3">
                         <label for="{{ form.phone_number.id_for_label }}" class="form-label">
-                            <i class="bi bi-telephone"></i> Phone Number *
+                            Phone Number *
                         </label>
                         {{ form.phone_number }}
                         {% if form.phone_number.errors %}
@@ -46,7 +44,7 @@
                     
                     <div class="mb-3">
                         <label for="{{ form.address.id_for_label }}" class="form-label">
-                            <i class="bi bi-geo-alt"></i> Address *
+                            Address *
                         </label>
                         {{ form.address }}
                         {% if form.address.errors %}
@@ -62,7 +60,6 @@
                     
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="bi bi-send"></i> 
                             {% if existing_account %}
                                 Update Account
                             {% else %}
@@ -74,7 +71,6 @@
             </div>
             <div class="card-footer text-center">
                 <p class="mb-0 text-muted">
-                    <i class="bi bi-shield-check"></i> 
                     All information is encrypted and securely stored
                 </p>
             </div>
