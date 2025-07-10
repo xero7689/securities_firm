@@ -101,13 +101,13 @@ This project uses pytest and pytest-django for testing. Tests are configured to 
 1. **Build and run with Docker Compose**:
 
    ```bash
-   docker-compose up --build
+   docker compose up --build
    ```
 
 2. **Create a superuser** (in a separate terminal):
 
    ```bash
-   docker-compose exec app python manage.py createsuperuser
+   docker compose exec app python manage.py createsuperuser
    ```
 
 3. **Access the application**:
