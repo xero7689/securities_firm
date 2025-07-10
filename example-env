@@ -23,5 +23,17 @@ IS_DEBUG=true
 ALLOWED_HOSTS=localhost,127.0.0.1
 APP_NAME=securities_firm
 
+# Uvicorn Configuration
+# UVICORN_WORKER_NUMS: Number of worker processes for uvicorn
+#   - Higher values improve performance for CPU-bound tasks
+#   - Has no effect when UVICORN_DEBUG_RELOAD=true (reload mode uses single process)
+UVICORN_WORKER_NUMS=1
+
+# UVICORN_DEBUG_RELOAD: Enable auto-reload on code changes
+#   - true: Server automatically reloads when source code changes (development only)
+#   - false: No auto-reload, enables multi-worker mode (production)
+#   - WARNING: When reload is enabled, UVICORN_WORKER_NUMS has no effect
+UVICORN_DEBUG_RELOAD=true
+
 # Docker Compose
 COMPOSE_PROJECT_NAME=securities_firm

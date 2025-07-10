@@ -6,14 +6,19 @@ authors = ["shzlee217 <shzlee217@gmail.com>"]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "django-structlog>=9.1.1",
     "django>=5.2.4",
     "psycopg[binary]>=3.2.9",
+    "structlog>=25.4.0",
+    "uvicorn>=0.35.0",
+    "whitenoise>=6.9.0",
 ]
 
 [tool.uv]
 dev-dependencies = [
     "pytest>=8.4.1",
     "pytest-django>=4.11.1",
+    "pytest-cov>=6.2.1",
 ]
 
 [tool.pytest.ini_options]

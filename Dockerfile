@@ -31,4 +31,3 @@ WORKDIR /app
 ENV PATH="/app/.venv/bin:$PATH"
 
 ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
