@@ -12,6 +12,9 @@ x-service-config: &service-config
     POSTGRES_HOST: ${POSTGRES_HOST:-db}
     POSTGRES_PORT: ${POSTGRES_PORT:-5432}
     APP_NAME: ${APP_NAME:-securities_firm}
+    UVICORN_WORKER_NUMS: ${UVICORN_WORKER_NUMS:-1}
+    UVICORN_DEBUG_RELOAD: ${UVICORN_DEBUG_RELOAD:-true}
+
 
 services:
   app:

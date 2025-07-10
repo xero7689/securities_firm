@@ -56,6 +56,8 @@ This project is a securities firm account opening demo powered by Django.
 
 This project uses pytest and pytest-django for testing. Tests are configured to run with Django settings automatically.
 
+**Important**: While Django's development server (`python manage.py runserver`) is suitable for local development and testing, it should **never be used in production environments** due to security and performance limitations.
+
 1. **Run all tests**:
 
    ```bash
@@ -116,6 +118,19 @@ This project uses pytest and pytest-django for testing. Tests are configured to 
 3. **Access the application**:
    - User interface: http://localhost:8080
    - Admin interface: http://localhost:8080/admin
+
+**Note**: The Docker container runs the application using **uvicorn** as the ASGI server, which is production-ready and optimized for performance.
+
+### Uvicorn Configuration
+
+The containerized setup supports several uvicorn configuration options through environment variables:
+
+- `UVICORN_WORKER_NUMS`: Number of worker processes (default: 1)
+- `UVICORN_DEBUG_RELOAD`: Enable auto-reload on code changes (default: false)
+  - When set to `true`, uvicorn will automatically reload the server when source code changes
+  - **Important**: When `--reload` is enabled, the `UVICORN_WORKER_NUMS` setting has no effect as uvicorn runs in single-process mode for development
+  - Use `UVICORN_DEBUG_RELOAD=true` for development environments only
+  - Set to `false` for production to enable multi-worker mode
 
 ### Important Notes for Production Deployment
 
