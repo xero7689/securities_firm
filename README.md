@@ -105,6 +105,14 @@ This project uses pytest and pytest-django for testing. Tests are configured to 
 
 **Note**: Tests are configured in `pyproject.toml` to automatically use `securities_firm.settings` as the Django settings module.
 
+**Troubleshooting**: If you encounter `ValueError: Missing staticfiles manifest entry for 'admin/css/base.css'`, ensure you have collected static files:
+
+```bash
+uv run python manage.py collectstatic
+```
+
+**Note**: The service temporarily logs account status audit logs to `/tmp/logs/` directory. Django admin static files are collected at `/tmp/staticfiles/` (as configured in `securities_firm/settings.py`).
+
 ## Docker Deployment
 
 ### Environment Setup
