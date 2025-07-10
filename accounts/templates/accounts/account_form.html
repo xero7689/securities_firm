@@ -39,7 +39,6 @@
                                 {% endfor %}
                             </div>
                         {% endif %}
-                        <div class="form-text">Enter your contact phone number</div>
                     </div>
                     
                     <div class="mb-3">
@@ -54,19 +53,16 @@
                                 {% endfor %}
                             </div>
                         {% endif %}
-                        <div class="form-text">Enter your complete mailing address</div>
                     </div>
                     
                     
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            {% if existing_account %}
-                                Update Account
-                            {% else %}
-                                Submit Account
-                            {% endif %}
-                        </button>
-                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        {% if existing_account %}
+                            Update Account
+                        {% else %}
+                            Submit Account
+                        {% endif %}
+                    </button>
                 </form>
             </div>
             <div class="card-footer text-center">
