@@ -1,13 +1,13 @@
 {% extends 'accounts/base.html' %}
-{% block title %}Account Status - Securities Firm{% endblock title %}
+{% block title %}
+  Account Status - Securities Firm
+{% endblock title %}
 {% block content %}
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title mb-0">
-            Account Status
-          </h3>
+          <h3 class="card-title mb-0">Account Status</h3>
         </div>
         <div class="card-body">
           <div class="alert alert-{{ status_info.color }} d-flex align-items-center">
@@ -54,9 +54,7 @@
           </div>
           {% if account.status == 'additional_docs_required' %}
             <div class="mt-4">
-              <a href="{% url 'supplement_form' %}" class="btn btn-warning">
-                Supplement Documents
-              </a>
+              <a href="{% url 'supplement_form' %}" class="btn btn-warning">Supplement Documents</a>
             </div>
           {% endif %}
         </div>
