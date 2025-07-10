@@ -64,21 +64,16 @@ This project uses pytest and pytest-django for testing. Tests are configured to 
    uv run pytest -v
    ```
 
-2. **Run specific test file**:
+2. **Run specific test module**:
 
    ```bash
-   uv run pytest tests/test_accounts.py -v
+   uv run pytest accounts -v
    ```
 
 3. **Run tests with coverage**:
 
    ```bash
    uv run pytest --cov=. -v
-   ```
-
-4. **Run tests matching a pattern**:
-   ```bash
-   uv run pytest -k "test_account" -v
    ```
 
 **Note**: Tests are configured in `pyproject.toml` to automatically use `securities_firm.settings` as the Django settings module.
