@@ -2,6 +2,13 @@
 
 This project is a securities firm account opening demo powered by Django.
 
+## System Requirements
+
+This project should be executed on one of the following operating systems:
+- **Linux**
+- **macOS**
+- **Windows with WSL** (Windows Subsystem for Linux)
+
 ## Python Requirements
 
 - **Python**: >= 3.12
@@ -13,7 +20,10 @@ This project is a securities firm account opening demo powered by Django.
 ### Using uv (Host Machine)
 
 1. **Install uv** (if not already installed):
-   Follow the [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/)
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+   For advanced installation options, see the [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/)
 
 2. **Clone the repository**:
 
@@ -27,6 +37,12 @@ This project is a securities firm account opening demo powered by Django.
    ```bash
    uv sync
    ```
+   
+   If `uv sync` fails, try deleting the `.venv` directory and execute the command again:
+   ```bash
+   rm -rf .venv
+   uv sync
+   ```
 
 4. **Run database migrations**:
 
@@ -34,19 +50,25 @@ This project is a securities firm account opening demo powered by Django.
    uv run python manage.py migrate
    ```
 
-5. **Create a superuser** (administrator account):
+5. **Collect static files**:
+
+   ```bash
+   uv run python manage.py collectstatic
+   ```
+
+6. **Create a superuser** (administrator account):
 
    ```bash
    uv run python manage.py createsuperuser
    ```
 
-6. **Start the development server**:
+7. **Start the development server**:
 
    ```bash
    uv run python manage.py runserver
    ```
 
-7. **Access the application**:
+8. **Access the application**:
    - User interface: http://localhost:8000
    - Admin interface: http://localhost:8000/admin
 
