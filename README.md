@@ -17,6 +17,11 @@ This project should be executed on one of the following operating systems:
 
 ## Running the Project
 
+There are 2 ways to run this project:
+
+- **Using uv (Host Machine)** - Run directly on your local machine
+- **Using Docker Container** - Run in a containerized environment with PostgreSQL database
+
 ### Using uv (Host Machine)
 
 1. **Install uv** (if not already installed):
